@@ -18,7 +18,7 @@ const SidebarFooter = () => {
   }, [])
 
   return (
-    <div ref={menuRef} className='relative mt-auto px-3 py-3 '>
+    <div ref={menuRef} className='relative mt-auto px-4 py-4 '>
       
       {/* Dropdown menu */}
       {open && (
