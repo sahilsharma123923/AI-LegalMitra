@@ -1,18 +1,17 @@
-import { useEffect } from 'react'
 import './App.css'
-import ChatWindow from './components/ChatWindow/ChatWindow'
-import SideBar from './components/Sidebar/SideBar'
+import { Routes,Route } from 'react-router-dom'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
+import Home from './pages/Home'
+
 
 function App() {
-
-useEffect(() => {
-  document.documentElement.classList.add("dark")
-}, [])
   return (
-    <div className='flex '>
-      <SideBar/>
-      <ChatWindow/>
-    </div>
+  <Routes>
+    <Route path='/'  element={<Home/>} />
+    <Route path='/signup'  element={<Signup/>} />
+    <Route path='/login'  element={<Login/>} />
+  </Routes>
   )
 }
 
