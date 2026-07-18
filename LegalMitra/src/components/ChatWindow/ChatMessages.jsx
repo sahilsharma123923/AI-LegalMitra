@@ -31,68 +31,63 @@ const suggestions = [
   },
 ];
 
-function ChatMessages({ messages, isLoading }) {
+function ChatMessages({ messages, isLoading, onSuggestionClick }) {
   const bottomRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
- if (messages.length === 0 && !isLoading) {
-  return (
-    <div className="flex-1 flex flex-col items-center justify-evenly px-5">
+  if (messages.length === 0 && !isLoading) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-evenly px-4">
+        {/* Heading */}
+        <h1 className="text-2xl font-semibold text-neutral-400 mb-2">
+          How can I help you today ?
+        </h1>
 
-      {/* Heading */}
-      <h1 className="text-3xl font-semibold text-neutral-300 mb-3">
-        How can I help you today ?
-      </h1>
+        {/* Cards */}
+        <div className="grid grid-cols-2 gap-4 w-full max-w-xl mx-auto">
+          {suggestions.map((item) => {
+            const Icon = item.icon;
 
-      {/* Cards */}
-      <div className="grid grid-cols-2 gap-2 w-full max-w-2xl mx-auto">
-        {suggestions.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <div
-              key={item.title}
-              className="group h-30 cursor-pointer rounded-xl border border-neutral-800 bg-neutral-900 p-4 flex flex-col justify-between transition-all duration-300 hover:border-violet-500 hover:bg-neutral-800 hover:-translate-y-1">
-              <div className="flex items-center justify-between">
-
+            return (
+              <div
+                key={item.title}
+                role="button"
+                tabIndex={0}
+                onClick={() => onSuggestionClick?.(item.title)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSuggestionClick?.(item.title);
+                  }
+                }}
+                className="group h-32 cursor-pointer rounded-xl border border-neutral-800 bg-neutral-900 p-4 flex flex-col justify-between transition-all duration-300 hover:border-violet-500 hover:bg-neutral-800 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              >
                 <div className="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center group-hover:bg-violet-500/10">
-                  <Icon
-                    size={20}
-                    className="text-violet-400"
-                  />
+                  <Icon size={20} className="text-violet-400" />
                 </div>
 
+                <h3 className="mt-2 text-white text-lg font-semibold">
+                  {item.title}
+                </h3>
+
+                <p className="mt-2 text-neutral-400 text-xs leading-6">
+                  {item.description}
+                </p>
               </div>
-
-              <h3 className="mt-2 text-white text-lg font-semibold">
-                {item.title}
-              </h3>
-
-              <p className="mt-2 text-neutral-400 text-sm leading-6">
-                {item.description}
-              </p>
-
-      
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-
-    </div>
-  );
-}
+    );
+  }
 
   return (
     <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-4">
       {messages.map((msg) => (
-        <MessageBubble
-          key={msg.id}
-          role={msg.role}
-          content={msg.content}
-        />
+        <MessageBubble key={msg.id} role={msg.role} content={msg.content} />
       ))}
 
       {isLoading && (
