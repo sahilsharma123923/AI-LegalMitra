@@ -4,6 +4,11 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 
+
+// Font imports
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/700.css";
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

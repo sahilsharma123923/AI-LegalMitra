@@ -6,7 +6,7 @@ import SidebarFooter from './SidebarFooter'
 
 const SideBar = () => {
   return (
-    <aside className='w-60 h-screen bg-[#1C1C1C] text-white flex flex-col'>
+    <aside className='w-60 h-screen bg-[#1C1C1C] text-white border-r border-neutral-800  flex flex-col'>
       <SidebarHeader />
 
       <nav className='flex flex-col gap-1 px-3 mt-4'>
