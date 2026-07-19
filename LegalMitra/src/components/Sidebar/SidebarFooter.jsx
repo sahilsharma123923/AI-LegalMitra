@@ -37,15 +37,15 @@ const SidebarFooter = () => {
       {/* Profile row */}
       <div
         onClick={() => setOpen(!open)}
-        className='flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors'
+        className='flex items-center justify-center gap-3 p-2 cursor-pointer transition-colors'
       >
-        <div className='w-9 h-9 rounded-full bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-400 font-medium text-sm'>
-          S
+        <div className='w-9 h-9 rounded-full bg-zinc-700 hover:bg-zinc-800 border-neutral-900 flex items-center justify-center text-slate-200 font-medium text-sm'>
+          SS
         </div>
 
         <div className='flex-1 min-w-0'>
-          <p className='text-sm font-medium text-white truncate'>Sahil</p>
-          <p className='text-xs text-gray-400 truncate'>sahil@email.com</p>
+          <p className='text-sm font-medium text-white truncate'>Sahil Sharma</p>
+          <p className='text-xs text-neutral-500 truncate'>sahil@email.com</p>
         </div>
 
         <ChevronUp
