@@ -4,7 +4,7 @@ import { SendHorizonal } from 'lucide-react'
 const ChatInput = () => {
   return (
     <div className='flex justify-center px-6 py-5'>
-       <div className=" w-full max-w-3xl rounded-3xl border border-zinc-700 bg-[#2A2A2A] transition-all duration-200 focus-within:border-violet-500">
+       <div className=" w-full max-w-2xl rounded-3xl border border-zinc-700 bg-[#2A2A2A] transition-all duration-200 focus-within:border-violet-500">
 
           <div className='flex items-center gap-3 px-5 py-3'>
             {/* Textarea */}
