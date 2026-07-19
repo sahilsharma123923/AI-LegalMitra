@@ -47,7 +47,7 @@ function ChatMessages({ messages, isLoading, onSuggestionClick }) {
         </h1>
 
         {/* Cards */}
-        <div className="grid grid-cols-2 gap-4 w-full max-w-xl mx-auto">
+        <div className="grid grid-cols-2 gap-7 w-full max-w-xl mx-auto">
           {suggestions.map((item) => {
             const Icon = item.icon;
 
@@ -63,10 +63,10 @@ function ChatMessages({ messages, isLoading, onSuggestionClick }) {
                     onSuggestionClick?.(item.title);
                   }
                 }}
-                className="group h-32 cursor-pointer rounded-xl border border-neutral-800 bg-neutral-900 p-4 flex flex-col justify-between transition-all duration-300 hover:border-violet-500 hover:bg-neutral-800 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                className="group h-32 cursor-pointer rounded-xl border border-neutral-800 bg-neutral-900 p-4 flex flex-col justify-between transition-all duration-300 hover:border-zinc-500 hover:bg-neutral-800 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300"
               >
                 <div className="w-10 h-10 rounded-xl bg-neutral-800 flex items-center justify-center group-hover:bg-violet-500/10">
-                  <Icon size={20} className="text-violet-400" />
+                  <Icon size={20} className="text-neutral-300" />
                 </div>
 
                 <h3 className="mt-2 text-white text-lg font-semibold">

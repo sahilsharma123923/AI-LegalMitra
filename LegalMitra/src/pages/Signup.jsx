@@ -32,9 +32,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="relative  h-[650px]  w-full bg-[#1C1C1C] flex items-center justify-center px-2">
+    <div className="relative  h-[600px]  w-full bg-[#1C1C1C] flex items-center justify-center px-2">
       <div
-        className="relative w-full max-w-md rounded-2xl p-8"
+        className="relative w-full max-w-md rounded-2xl p-7"
         style={{
           background: "rgba(255,255,255,0.06)",
           backdropFilter: "blur(18px)",
@@ -43,20 +43,20 @@ const Signup = () => {
           boxShadow: "0 18px 32px rgba(0,0,0,0.5)",
         }}
       >
-       <div className="flex items-start gap-3 mb-8">
+       <div className="flex items-center justify-center gap-3 mb-8">
          {/* Logo */}
      <div
-      className="w-10 h-10 rounded-xl flex items-center  justify-center"
+      className="w-12 h-12 rounded-xl flex items-center  justify-center"
       style={{
       background: "rgba(255,255,255,0.08)",
       border: "1px solid rgba(255,255,255,0.15)",
       }}
      >
-     <Scale className="text-neutral-200" size={24} />
+     <Scale className="text-neutral-950" size={26} />
     </div>
 
   {/* Text */}
-  <div className="flex flex-col">
+  <div className="flex flex-col items-center justify-center">
        <h1 className="text-3xl font-semibold text-neutral-200 ">
       LegalMitra
       </h1>
@@ -110,7 +110,7 @@ const Signup = () => {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full text-white rounded-lg px-4 py-2 pr-11 text-sm outline-none placeholder:text-neutral-500 border transition-colors"
+                className="w-full text-white rounded-lg px-4 py-2.5 pr-11 text-sm outline-none placeholder:text-neutral-500 border transition-colors"
                 style={{
                   background: "rgba(255,255,255,0.05)",
                   borderColor: "rgba(255,255,255,0.16)",
@@ -143,13 +143,13 @@ const Signup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-neutral-950 text-neutral-200 hover:bg-neutral-700 transition font-medium text-sm rounded-lg py-2.5 disabled:opacity-60"
+            className=" w-full bg-neutral-950 text-neutral-200 hover:bg-neutral-700 transition font-medium text-sm rounded-lg py-2.5 disabled:opacity-60"
           >
             {loading ? "Creating account..." : "Create account"}
           </button>
         </form>
 
-        <p className="text-center text-neutral-400 text-xs mt-6">
+        <p className="text-center text-neutral-400 text-xs mt-3">
           Already have an account?{" "}
           <Link
             to="/login"

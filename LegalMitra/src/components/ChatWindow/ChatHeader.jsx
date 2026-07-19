@@ -1,30 +1,28 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button } from "@/components/ui/button"
-import { LogIn,UserPlus } from 'lucide-react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const ChatHeader = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
   return (
-    <div className="flex justify-end items-center px-3 py-3 gap-3">
-      <Button 
-        variant="outline" 
-        onClick={()=>navigate("/signup")}
-        className="transition-transform duration-200 hover:scale-105 active:scale-95 border-violet-500 dark:border-violet-500"
+    <header className="flex justify-end items-center px-6 py-4 gap-3  bg-[#1c1c1c]">
+      <Button
+        variant="outline"
+        onClick={() => navigate("/signup")}
+        className="border-neutral-800 text-sm text-neutral-200 hover:bg-neutral-100 hover:text-black transition-all duration-300"
       >
-        <UserPlus className='text-violet-500'/>
-        Signup
+        Sign Up
       </Button>
-      <Button 
-        variant="outline" 
-        onClick={()=>navigate("/login")}
-        className="transition-transform duration-200 hover:scale-105 active:scale-95 border-violet-500 dark:border-violet-500"
+
+      <Button
+        onClick={() => navigate("/login")}
+        className=" text-zinc-800 hover:bg-white border-black bg-white text-sm transition-all duration-300"
       >
-        <LogIn className='text-violet-500'/>
         Login
       </Button>
-    </div>
-  )
-}
+    </header>
+  );
+};
 
-export default ChatHeader
+export default ChatHeader;
