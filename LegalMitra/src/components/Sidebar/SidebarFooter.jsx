@@ -18,7 +18,7 @@ const SidebarFooter = () => {
   }, [])
 
   return (
-    <div ref={menuRef} className='relative mt-auto px-4 py-4 '>
+    <div ref={menuRef} className='relative '>
       
       {/* Dropdown menu */}
       {open && (
@@ -27,13 +27,12 @@ const SidebarFooter = () => {
             <Settings size={16} />
             Settings
           </button>
-          <button className='w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-400 hover:bg-white/5 transition-colors'>
-            <LogOut size={16} />
-            Logout
-          </button>
+         <button onClick={()=>{setOpen(false);
+         navigate("/login"); }}
+         className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-400 hover:bg-white/5 transition-colors"
+        ><LogOut size={16}/>Logout</button>
         </div>
       )}
-
       {/* Profile row */}
       <div
         onClick={() => setOpen(!open)}
