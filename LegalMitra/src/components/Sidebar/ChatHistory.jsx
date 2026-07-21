@@ -17,7 +17,7 @@ const ChatHistory = () => {
     <div className="flex flex-col mt-6 px-3">
 
       {/* New Chat Button */}
-      <Button className=" p-2 w-40  flex items-centerjustify-center bg-neutral-200 hover:bg-neutral-600 text-zinc-900 hover:text-white  gap-2 rounded-lg">
+      <Button className=" p-2 w-40  flex items-center justify-center bg-neutral-300 hover:bg-neutral-600 text-zinc-900 hover:text-white  gap-2 rounded-lg">
         <Plus className="w-4 h-4" />
         New Chat
       </Button>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import DocumentUpload from './DocumentUpload';
 import DocumentList from './DocumentList';
+import AppLayout from '../Layout/AppLayout';
 
 const DocumentsPage = () => {
    const[documents,setDocuments]=useState([]);
@@ -27,6 +28,7 @@ const DocumentsPage = () => {
     setDocuments((prev)=>prev.filter((d)=>d.id !==id))
    }
   return (
+    <AppLayout>
     <div className='flex-1 h-screen overflow-y-auto bg-[#141414] text-white p-8'>
      <div className='max-w-3xl mx-auto'>
 
@@ -35,10 +37,11 @@ const DocumentsPage = () => {
       <DocumentUpload onFilesSelected={handleFilesSelected}/>
     
       <div>
-        <DocumentList documents={documents}/>
+        <DocumentList documents={documents} onDelete={handleDelete}/>
       </div>
      </div>
     </div>
+    </AppLayout>
   )
 }
 
