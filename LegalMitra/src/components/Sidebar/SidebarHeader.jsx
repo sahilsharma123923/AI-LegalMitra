@@ -3,7 +3,7 @@ import { Scale } from 'lucide-react'
 
 const SidebarHeader = () => {
   return (
-    <div className='px-4 py-3  border-b border-neutral-800'>
+    <div className='px-4 py-3  border-b border-neutral-800 mb-8'>
       <div className='flex items-center justify-center gap-2'>
         <div className='flex items-center justify-center w-10 h-10 rounded-2xl  border border-zinc-600'>
           <Scale size={24} className='text-indigo-200' />
