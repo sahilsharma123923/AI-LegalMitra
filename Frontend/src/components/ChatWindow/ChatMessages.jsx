@@ -40,14 +40,12 @@ function ChatMessages({ messages, isLoading, onSuggestionClick }) {
 
   if (messages.length === 0 && !isLoading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-evenly px-4">
-        {/* Heading */}
-        <h1 className="text-2xl font-semibold text-neutral-400 mb-2">
+      <div className="flex-1 flex flex-col items-center justify-evenly px-4 py-6">
+        <h1 className="text-2xl font-semibold text-neutral-400 mb-2 text-center">
           How can I help you today ?
         </h1>
 
-        {/* Cards */}
-        <div className="grid grid-cols-2 gap-5 w-full max-w-xl mx-auto">
+        <div className="grid grid-cols-1 gap-4 w-full max-w-xl mx-auto sm:grid-cols-2">
           {suggestions.map((item) => {
             const Icon = item.icon;
 
