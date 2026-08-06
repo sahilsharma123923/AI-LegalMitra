@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
+import { ChatStore } from "@/store/ChatStore";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const ChatWindow = ({ onMenuClick }) => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { currentChat } = ChatStore();
+
+  useEffect(() => {
+    setMessages([]);
+  }, [currentChat?.id]);
 
   const handleSend = async (question) => {
     const newUserMessage = {

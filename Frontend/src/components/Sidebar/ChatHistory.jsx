@@ -9,7 +9,7 @@ import {
 import { ChatStore } from "@/store/ChatStore";
 
 const ChatHistory = () => {
-  const { chats } = ChatStore();
+  const { chats, currentChat, addChat, setCurrentChat } = ChatStore();
 
   const [showRecent, setShowRecent] = useState(true);
 
@@ -17,7 +17,10 @@ const ChatHistory = () => {
     <div className="flex flex-col mt-6 px-3">
 
       {/* New Chat Button */}
-      <Button className=" p-2 w-40  flex items-center justify-center  text-neutral-200 bg-neutral-800 hover:bg-neutral-200 hover:text-neutral-800  gap-2 rounded-xl">
+      <Button
+        onClick={addChat}
+        className="p-2 w-40 flex items-center justify-center text-neutral-200 bg-neutral-800 hover:bg-neutral-200 hover:text-neutral-800 gap-2 rounded-xl"
+      >
         <Plus className="w-4 h-4" />
         New Chat
       </Button>
@@ -43,7 +46,13 @@ const ChatHistory = () => {
           {chats.map((chat) => (
             <button
               key={chat.id}
-              className="flex items-center gap-2 rounded-md px-2 py-2 text-sm text-neutral-300 hover:bg-neutral-800 hover:text-white transition"
+              type="button"
+              onClick={() => setCurrentChat(chat.id)}
+              className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition ${
+                currentChat?.id === chat.id
+                  ? "bg-white/10 text-white"
+                  : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
+              }`}
             >
               <MessageSquare className="w-4 h-4" />
               <span className="truncate">{chat.title}</span>
