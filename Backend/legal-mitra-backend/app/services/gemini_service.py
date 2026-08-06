@@ -1,7 +1,7 @@
 import os
-from openai import OpenAI
+import google.generativeai as genai
 
-from app.config import OPENROUTER_API_KEY
+from app.config import GEMINI_API_KEY
 
 
 class GeminiService:
@@ -10,14 +10,15 @@ class GeminiService:
 
         print("Creating GeminiService...")
 
-        self.client = None
-        self.api_key = OPENROUTER_API_KEY or os.getenv("OPENROUTER_API_KEY")
+        self.model = None
+        self.api_key = (
+            GEMINI_API_KEY
+            or os.getenv("GEMINI_API_KEY")
+        )
 
         if self.api_key:
-            self.client = OpenAI(
-                api_key=self.api_key,
-                base_url="https://openrouter.ai/api/v1"
-            )
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel("gemini-2.0-flash")
             print("GeminiService ready.")
         else:
             print("GeminiService created without a configured API key; chat will fall back to a friendly message.")
@@ -117,28 +118,18 @@ Remember:
 """
 
         # =========================================
-        # OPENROUTER
+        # GEMINI
         # =========================================
 
-        if not self.client:
+        if not self.model:
             return (
                 "The legal assistant is not configured with an LLM API key yet. "
-                "Please add OPENROUTER_API_KEY to the backend environment to enable chat responses."
+                "Please add GEMINI_API_KEY to the backend environment to enable chat responses."
             )
 
-        response = self.client.chat.completions.create(
+        response = self.model.generate_content(prompt)
 
-            model="openai/gpt-oss-20b:free",
-
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ]
-        )
-
-        answer = response.choices[0].message.content
+        answer = response.text
 
         # =========================================
         # CLEAN ANSWER

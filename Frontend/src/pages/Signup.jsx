@@ -24,33 +24,36 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  setError("");
+  setLoading(true);
 
-      const data = await response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-      if (!response.ok) {
-        throw new Error(data.detail || "Registration failed");
-      }
+    const data = await response.json();
 
-      navigate("/login");
-    } catch (err) {
-      setError(err.message || "Unable to create your account right now.");
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error(data.detail || "Registration failed");
     }
-  };
+
+    alert("Registration Successful!");
+    navigate("/login");
+  } catch (err) {
+    console.error(err);
+    setError(err.message || "Registration failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="relative min-h-screen w-full bg-[#1C1C1C] flex items-center justify-center px-4 py-8">

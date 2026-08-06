@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from app.utils.security import verify_password
 from sqlalchemy.orm import Session
 from app.utils.jwt_handler import create_access_token
@@ -11,17 +13,25 @@ class AuthService:
 
         db = SessionLocal()
 
-        user = User(
-            name=name,
-            email=email,
-            password=hash_password(password)
-        )
+        try:
+            existing_user = db.query(User).filter(User.email == email).first()
+            if existing_user:
+                raise HTTPException(status_code=400, detail="Email already registered")
 
-        db.add(user)
-        db.commit()
-        db.close()
+            user = User(
+                name=name,
+                email=email,
+                password=hash_password(password)
+            )
 
-        return "User Registered Successfully"
+            db.add(user)
+            db.commit()
+            return "User Registered Successfully"
+        except IntegrityError:
+            db.rollback()
+            raise HTTPException(status_code=400, detail="Email already registered")
+        finally:
+            db.close()
     
 
     def login(self, email: str, password: str):

@@ -38,14 +38,13 @@ const Login = () => {
       }
 
       localStorage.setItem("legalmitra_token", data.access_token);
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       setError(err.message || "Unable to login right now.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#1c1c1c] px-4 py-8">
       <div
