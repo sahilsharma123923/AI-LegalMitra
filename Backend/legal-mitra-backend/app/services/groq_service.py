@@ -1,27 +1,29 @@
 import os
-import google.generativeai as genai
+from langchain_groq import ChatGroq
 
-from app.config import GEMINI_API_KEY
+from app.config import GROQ_API_KEY
 
 
-class GeminiService:
+class GroqService:
 
     def __init__(self):
 
-        print("Creating GeminiService...")
+        print("Creating GroqService...")
 
         self.model = None
         self.api_key = (
-            GEMINI_API_KEY
-            or os.getenv("GEMINI_API_KEY")
+            GROQ_API_KEY
+            or os.getenv("GROQ_API_KEY")
         )
 
         if self.api_key:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel("gemini-2.0-flash")
-            print("GeminiService ready.")
+            self.model = ChatGroq(
+                api_key=self.api_key,
+                model="llama-3.3-70b-versatile"
+            )
+            print("GroqService ready.")
         else:
-            print("GeminiService created without a configured API key; chat will fall back to a friendly message.")
+            print("GroqService created without a configured API key; chat will fall back to a friendly message.")
 
     def generate_answer(self, question: str, laws):
 
@@ -89,15 +91,10 @@ STRICT RULES:
 6. Give a complete and clear answer to the user's question.
 7. Use simple English.
 8. Do not mention that you are an AI.
-9. Do not write "Source 1", "Source 2", etc.
-10. Do not write the source or page in the middle of the answer.
-11. At the VERY END, write exactly ONE source line in this format:
-
-Source: FILE_NAME | Page: PAGE_NUMBER
-
-12. Choose the source and page that most directly supports your answer.
-13. If multiple retrieved documents exist, choose only the most relevant one for the final source line.
-14. If the answer is not available in the provided legal documents, say:
+9. Do not mention the source file name or page number anywhere in the answer.
+10. Do not add any citation, reference, or source line at the end.
+11. Just answer the user's question directly and completely.
+12. If the answer is not available in the provided legal documents, say:
 
 I could not find this information in the provided legal documents.
 
@@ -112,24 +109,23 @@ LEGAL DOCUMENT CONTEXT:
 Now answer the question clearly and completely.
 
 Remember:
-- Answer first.
-- Source line must be LAST.
-- Only ONE source/page line.
+- Only answer the user's question.
+- Do not include any source, file name, or page number in your response.
 """
 
         # =========================================
-        # GEMINI
+        # GROQ
         # =========================================
 
         if not self.model:
             return (
                 "The legal assistant is not configured with an LLM API key yet. "
-                "Please add GEMINI_API_KEY to the backend environment to enable chat responses."
+                "Please add GROQ_API_KEY to the backend environment to enable chat responses."
             )
 
-        response = self.model.generate_content(prompt)
+        response = self.model.invoke(prompt)
 
-        answer = response.text
+        answer = response.content
 
         # =========================================
         # CLEAN ANSWER

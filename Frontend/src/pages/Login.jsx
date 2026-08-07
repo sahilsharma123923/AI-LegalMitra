@@ -38,7 +38,7 @@ const Login = () => {
       }
 
       localStorage.setItem("legalmitra_token", data.access_token);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError(err.message || "Unable to login right now.");
     } finally {
