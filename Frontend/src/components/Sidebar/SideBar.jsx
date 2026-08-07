@@ -3,11 +3,11 @@ import SidebarHeader from "./SidebarHeader";
 import SidebarFooter from "./SidebarFooter";
 import ChatHistory from "./ChatHistory";
 
-const MIN_WIDTH = 220;
+const MIN_WIDTH = 200;
 const MAX_WIDTH = 380;
 
 const SideBar = ({ isOpen = false, onClose = () => {} }) => {
-  const [sidebarWidth, setSidebarWidth] = useState(260);
+  const [sidebarWidth, setSidebarWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
   const startXRef = useRef(0);
   const startWidthRef = useRef(sidebarWidth);

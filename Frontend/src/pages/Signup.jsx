@@ -31,6 +31,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
+      // STEP 1: Register the user
       const response = await fetch(`${API_BASE_URL}/register`, {
         method: "POST",
         headers: {
@@ -45,7 +46,27 @@ const Signup = () => {
         throw new Error(data.detail || "Registration failed");
       }
 
-      alert("Registration Successful!");
+      // STEP 2: Auto-login using the same credentials
+      const loginBody = new URLSearchParams();
+      loginBody.append("username", formData.email);
+      loginBody.append("password", formData.password);
+
+      const loginResponse = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: loginBody,
+      });
+
+      const loginData = await loginResponse.json();
+
+      if (!loginResponse.ok) {
+        throw new Error(loginData.detail || "Auto-login failed");
+      }
+
+      // STEP 3: Store token and go to Home, already logged in
+      localStorage.setItem("legalmitra_token", loginData.access_token);
       navigate("/home");
     } catch (err) {
       console.error(err);

@@ -3,10 +3,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { Settings, LogOut, ChevronUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 const SidebarFooter = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -17,6 +20,42 @@ const SidebarFooter = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("legalmitra_token");
+      if (!token) return;
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        setUser(data);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  if (!user) return null;
 
   return (
     <div ref={menuRef} className="relative">
@@ -45,12 +84,12 @@ const SidebarFooter = () => {
         className="flex items-center justify-center gap-3 p-2 cursor-pointer transition-colors"
       >
         <div className="w-9 h-9 rounded-full bg-zinc-700 hover:bg-zinc-800 border-neutral-900 flex items-center justify-center text-slate-200 font-medium text-sm">
-          SS
+          {getInitials(user.name)}
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-white truncate">Sahil Sharma</p>
-          <p className="text-xs text-neutral-500 truncate">sahil@email.com</p>
+          <p className="text-sm font-medium text-white truncate">{user.name}</p>
+          <p className="text-xs text-neutral-500 truncate">{user.email}</p>
         </div>
 
         <ChevronUp

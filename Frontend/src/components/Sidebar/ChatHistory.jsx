@@ -5,13 +5,19 @@ import {
   ChevronRight,
   ChevronDown,
   MessageSquare,
+  Trash2,
 } from "lucide-react";
 import { ChatStore } from "@/store/ChatStore";
 
 const ChatHistory = () => {
-  const { chats, currentChat, addChat, setCurrentChat } = ChatStore();
+  const { chats, currentChat, addChat, setCurrentChat, deleteChat } = ChatStore();
 
   const [showRecent, setShowRecent] = useState(true);
+
+  const handleDelete = (e, chatId) => {
+    e.stopPropagation();
+    deleteChat(chatId);
+  };
 
   return (
     <div className="flex flex-col mt-6 px-3">
@@ -44,19 +50,27 @@ const ChatHistory = () => {
       {showRecent && (
         <div className="mt-2 flex flex-col gap-1">
           {chats.map((chat) => (
-            <button
+            <div
               key={chat.id}
-              type="button"
-              onClick={() => setCurrentChat(chat.id)}
-              className={`flex items-center gap-2 rounded-md px-2 py-2 text-sm transition ${
+              className={`group flex items-center gap-2 rounded-md px-2 py-2 text-sm transition cursor-pointer ${
                 currentChat?.id === chat.id
                   ? "bg-white/10 text-white"
                   : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
               }`}
+              onClick={() => setCurrentChat(chat.id)}
             >
-              <MessageSquare className="w-4 h-4" />
-              <span className="truncate">{chat.title}</span>
-            </button>
+              <MessageSquare className="w-4 h-4 shrink-0" />
+              <span className="truncate flex-1">{chat.title}</span>
+
+              <button
+                type="button"
+                onClick={(e) => handleDelete(e, chat.id)}
+                className="opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-red-400 transition-opacity shrink-0"
+                aria-label="Delete chat"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
           ))}
         </div>
       )}
