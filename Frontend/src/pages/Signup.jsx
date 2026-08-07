@@ -24,36 +24,36 @@ const Signup = () => {
     });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  setError("");
-  setLoading(true);
+    setError("");
+    setLoading(true);
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.detail || "Registration failed");
+      if (!response.ok) {
+        throw new Error(data.detail || "Registration failed");
+      }
+
+      alert("Registration Successful!");
+      navigate("/home");
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
-
-    alert("Registration Successful!");
-    navigate("/login");
-  } catch (err) {
-    console.error(err);
-    setError(err.message || "Registration failed");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-[#1C1C1C] flex items-center justify-center px-4 py-8">
