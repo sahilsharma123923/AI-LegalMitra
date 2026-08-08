@@ -14,7 +14,7 @@ class ChatService:
         self.groq_service = GroqService()
         print("ChatService ready.")
 
-    def generate_response(self, question: str, user_id: int):
+    def generate_response(self, question: str, user_id: int, conversation_id: int = None):
 
         print("\n========================================")
         print("CHAT SERVICE")
@@ -38,14 +38,36 @@ class ChatService:
 
         try:
 
-            conversation = Conversation(
-                user_id=user_id,
-                title=question[:30]
-            )
+            if conversation_id:
 
-            db.add(conversation)
-            db.commit()
-            db.refresh(conversation)
+                conversation = (
+                    db.query(Conversation)
+                    .filter(
+                        Conversation.id == conversation_id,
+                        Conversation.user_id == user_id
+                    )
+                    .first()
+                )
+
+                if not conversation:
+                    conversation = Conversation(
+                        user_id=user_id,
+                        title=question[:30]
+                    )
+                    db.add(conversation)
+                    db.commit()
+                    db.refresh(conversation)
+
+            else:
+
+                conversation = Conversation(
+                    user_id=user_id,
+                    title=question[:30]
+                )
+
+                db.add(conversation)
+                db.commit()
+                db.refresh(conversation)
 
             chat = ChatHistory(
                 user_id=user_id,
@@ -59,6 +81,8 @@ class ChatService:
 
             print("Chat history saved successfully.")
 
+            return answer, conversation.id
+
         except Exception as e:
 
             db.rollback()
@@ -69,7 +93,3 @@ class ChatService:
 
         finally:
             db.close()
-
-        print("========================================\n")
-
-        return answer

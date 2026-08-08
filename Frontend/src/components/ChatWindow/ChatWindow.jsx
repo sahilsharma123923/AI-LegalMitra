@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
@@ -7,15 +8,57 @@ import { ChatStore } from "@/store/ChatStore";
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const ChatWindow = ({ onMenuClick }) => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { currentChat } = ChatStore();
+  const { currentChatId, setCurrentChat, triggerRefresh } = ChatStore();
 
   useEffect(() => {
-    setMessages([]);
-  }, [currentChat?.id]);
+    const loadMessages = async () => {
+      if (!currentChatId) {
+        setMessages([]);
+        return;
+      }
+
+      const token = localStorage.getItem("legalmitra_token");
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/conversations/${currentChatId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        const formatted = data.flatMap((item) => [
+          { id: `${item.id}-q`, role: "user", content: item.question },
+          { id: `${item.id}-a`, role: "assistant", content: item.answer },
+        ]);
+
+        setMessages(formatted);
+      } catch (err) {
+        console.error("Failed to load conversation:", err);
+      }
+    };
+
+    loadMessages();
+  }, [currentChatId]);
 
   const handleSend = async (question) => {
+    const token = localStorage.getItem("legalmitra_token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const newUserMessage = {
       id: Date.now(),
       role: "user",
@@ -26,15 +69,16 @@ const ChatWindow = ({ onMenuClick }) => {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem("legalmitra_token");
-
       const response = await fetch(`${API_BASE_URL}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({
+          question,
+          conversation_id: currentChatId,
+        }),
       });
 
       const data = await response.json();
@@ -51,6 +95,12 @@ const ChatWindow = ({ onMenuClick }) => {
           content: data.answer,
         },
       ]);
+
+      if (!currentChatId) {
+        setCurrentChat(data.conversation_id);
+      }
+
+      triggerRefresh();
     } catch (err) {
       setMessages((prev) => [
         ...prev,
