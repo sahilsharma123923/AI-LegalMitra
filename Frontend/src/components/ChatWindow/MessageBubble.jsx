@@ -13,7 +13,7 @@ function MessageBubble({ role, content }) {
       )}
 
       <div
-        className={`max-w-[70%] px-4 py-2.5 rounded-xl text-sm leading-relaxed ${
+        className={`max-w-[70%] px-4 py-2.5 rounded-xl text-sm leading-relaxed whitespace-pre-line ${
           isUser
             ? 'bg-zinc-800 text-white'
             : 'bg-neutral-800 text-neutral-200'

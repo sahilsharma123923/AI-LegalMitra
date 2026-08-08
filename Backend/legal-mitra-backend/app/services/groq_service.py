@@ -93,8 +93,12 @@ STRICT RULES:
 8. Do not mention that you are an AI.
 9. Do not mention the source file name or page number anywhere in the answer.
 10. Do not add any citation, reference, or source line at the end.
-11. Just answer the user's question directly and completely.
-12. If the answer is not available in the provided legal documents, say:
+11. Format your answer clearly:
+    - Break the answer into short paragraphs (2-3 sentences each), OR
+    - Use bullet points (starting with "- ") when listing multiple rights, rules, or steps.
+    - Leave a blank line between paragraphs or bullet points.
+12. Just answer the user's question directly and completely.
+13. If the answer is not available in the provided legal documents, say:
 
 I could not find this information in the provided legal documents.
 
@@ -111,6 +115,7 @@ Now answer the question clearly and completely.
 Remember:
 - Only answer the user's question.
 - Do not include any source, file name, or page number in your response.
+- Format with short paragraphs or bullet points, with blank lines between them.
 """
 
         # =========================================
