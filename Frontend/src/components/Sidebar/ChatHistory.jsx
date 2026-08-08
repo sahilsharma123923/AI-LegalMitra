@@ -117,14 +117,14 @@ const ChatHistory = () => {
           {conversations.map((conversation) => (
             <div
               key={conversation.id}
-              className={`group flex items-center gap-2 rounded-md px-2 py-2 text-sm transition cursor-pointer ${
+              className={`group flex items-center gap-2 rounded-md px-2 py-2 text-xs transition cursor-pointer ${
                 currentChatId === conversation.id
                   ? "bg-white/10 text-white"
                   : "text-neutral-300 hover:bg-neutral-800 hover:text-white"
               }`}
               onClick={() => setCurrentChat(conversation.id)}
             >
-              <MessageSquare className="w-4 h-4 shrink-0" />
+              <MessageSquare className="w-3 h-3 shrink-0" />
               <span className="truncate flex-1">{conversation.title}</span>
 
               <button

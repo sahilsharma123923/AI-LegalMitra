@@ -3,7 +3,7 @@ import SideBar from "../Sidebar/SideBar";
 
 const AppLayout = ({ children }) => {
   return (
-    <div className="flex h-screen bg-[#141414]">
+    <div className="flex h-screen  bg-[#141414]">
       <SideBar />
 
       <main className="flex-1 overflow-y-auto">
